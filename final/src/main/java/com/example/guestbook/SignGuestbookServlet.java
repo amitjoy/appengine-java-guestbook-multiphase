@@ -18,6 +18,7 @@
 package com.example.guestbook;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,26 @@ public final class SignGuestbookServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 162453468698373742L;
 
+	/**
+	 * Identifier for User Not Available
+	 */
+	private static final User USER_NOT_AVAILABLE = null;
+
+	/**
+	 * Deletes Records after the limit specified
+	 */
+	private void deleteRecords(final int limit) {
+		final List<Greeting> keysToDisplay = ObjectifyService.ofy().load().type(Greeting.class).limit(limit)
+				.order("-date").list();
+		final List<Greeting> keysTotal = ObjectifyService.ofy().load().type(Greeting.class).order("-date").list();
+		for (final Greeting greeting : keysToDisplay) {
+			if (keysTotal.contains(greeting)) {
+				keysTotal.remove(greeting);
+			}
+		}
+		ObjectifyService.ofy().delete().entities(keysTotal);
+	}
+
 	// Process the http POST of the form
 	@Override
 	public void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
@@ -54,7 +75,8 @@ public final class SignGuestbookServlet extends HttpServlet {
 
 		final String content = req.getParameter("content");
 		final StringBuilder builder = new StringBuilder(content);
-		if (user != null) {
+
+		if (user != USER_NOT_AVAILABLE) {
 			greeting = new Greeting(guestbookName, builder.insert(0, "Your website is awesome! ").toString(),
 					user.getUserId(), user.getEmail());
 		} else {
@@ -65,9 +87,12 @@ public final class SignGuestbookServlet extends HttpServlet {
 		// synchronously as we
 		// will immediately get a new page using redirect and we want the data
 		// to be present.
+
 		ObjectifyService.ofy().save().entity(greeting).now();
+		this.deleteRecords(5);
 
 		resp.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
 	}
+
 }
 // [END all]
