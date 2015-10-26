@@ -10,7 +10,7 @@
 
     <properties>
         <appengine.app.version>1</appengine.app.version>
-        <appengine.version>1.9.24</appengine.version>
+        <appengine.version>1.9.27</appengine.version>
 
         <objectify.version>5.1.5</objectify.version>
         <guava.version>18.0</guava.version>
@@ -119,6 +119,7 @@
                 <version>${appengine.version}</version>
                 <configuration>
                     <enableJarClasses>false</enableJarClasses>
+                    <version>aseguestbook</version>
                     <!-- Comment in the below snippet to bind to all IPs instead of just localhost -->
                     <!-- address>0.0.0.0</address>
                     <port>8080</port -->
