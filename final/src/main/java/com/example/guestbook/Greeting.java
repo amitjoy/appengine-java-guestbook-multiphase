@@ -19,6 +19,8 @@ package com.example.guestbook;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -39,6 +41,7 @@ import com.googlecode.objectify.annotation.Parent;
  * NOTE - all the properties are PUBLIC so that can keep the code simple.
  **/
 @Entity
+@XmlRootElement(name = "Greeting")
 public final class Greeting {
 	public String author_email;
 	public String author_id;
