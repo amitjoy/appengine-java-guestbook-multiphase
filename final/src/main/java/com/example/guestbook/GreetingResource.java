@@ -13,12 +13,16 @@ public final class GreetingResource extends ServerResource {
 
 	@Get("xml")
 	public String represent() throws JAXBException {
-		final Greeting greeting = new Greeting("AMIT", "Your website is awesome! ");
-		final JAXBContext context = JAXBContext.newInstance(greeting.getClass());
+		final Greeting greeting1 = new Greeting("AMIT", "Your website is awesome! ");
+		final Greeting greeting2 = new Greeting("AMIT", "Your website is awesome! ");
+		final Greetings greetings = new Greetings();
+		greetings.getGreetings().add(greeting1);
+		greetings.getGreetings().add(greeting2);
+		final JAXBContext context = JAXBContext.newInstance(greetings.getClass());
 		final Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		final StringWriter sw = new StringWriter();
-		marshaller.marshal(greeting, sw);
+		marshaller.marshal(greetings, sw);
 		return sw.toString();
 	}
 
