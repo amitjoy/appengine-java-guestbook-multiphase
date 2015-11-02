@@ -18,9 +18,11 @@
 package com.example.guestbook;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.google.appengine.repackaged.com.google.common.base.MoreObjects;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -82,6 +84,17 @@ public final class Greeting {
 		this(book, content);
 		this.author_email = email;
 		this.author_id = id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.author_id, this.author_email, this.content, this.date);
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("Author ID", this.author_id).add("Author Email", this.author_email)
+				.add("Greeting Content", this.content).add("Date", this.date).toString();
 	}
 
 }

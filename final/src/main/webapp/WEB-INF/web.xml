@@ -20,7 +20,7 @@
 
 	<servlet-mapping>
 		<servlet-name>RestletServlet</servlet-name>
-		<url-pattern>/list</url-pattern>
+		<url-pattern>/list/*</url-pattern>
 	</servlet-mapping>
 	<!-- [END Restlet] -->
 	
